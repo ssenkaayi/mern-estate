@@ -5,18 +5,10 @@ import userRouter from './routes/user.js'
 import authRouter from './routes/auth.js'
 dotenv.config();
 
-
 const app = express();
 
 //express middleware
 app.use(express.json());
-
-
-//router middleware
-app.use('/user',userRouter)
-app.use('/auth',authRouter)
-
-
 
 //connecting to the db
 const connect = async ()=>{
@@ -34,5 +26,18 @@ const runServer = ()=>
         ()=>console.log('serever is runing on port 5000')
     )
 }
-
 connect()
+
+//router middleware
+app.use('/user',userRouter)
+app.use('/auth',authRouter)
+
+app.use((err,req,res,next)=>{
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'internal Server Error';
+    res.status(statusCode).json({
+        success:false,
+        statusCode:statusCode,
+        message:message,
+    });
+})
