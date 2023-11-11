@@ -19,14 +19,17 @@ export default function Header() {
 
 
             <form className='bg-slate-100 p-3 rounded-lg flex items-center'>
+
                 <input type='text' 
                 placeholder='search' 
-                className='bg-transparent focus:outline-none w-30 sm:w-80'></input>
+                className='bg-transparent focus:outline-none w-21 sm:w-80'></input>
+
                 <FaSearch className='text-slate-500' ></FaSearch>
                 
             </form>
 
             <ul className='flex gap-4 text-slate-700'>
+
                 <Link to='/'>
                     <li className='hidden sm:inline hover:underline'>Home</li>
                 </Link>
