@@ -22,7 +22,7 @@ export default function Header() {
 
                 <input type='text' 
                 placeholder='search' 
-                className='bg-transparent focus:outline-none w-21 sm:w-80'></input>
+                className='bg-transparent focus:outline-none w-20 sm:w-80'></input>
 
                 <FaSearch className='text-slate-500' ></FaSearch>
                 
@@ -38,8 +38,12 @@ export default function Header() {
                     <li className='hidden sm:inline hover:underline'>About</li>
                 </Link>
                 
+                <Link to='/signup'>
+                    <li className='hover:underline'>Sign Up</li>
+                </Link>
+
                 <Link to='/signin'>
-                    <li className='hover:underline'>Sign in</li>
+                    <li className='hidden hover:underline'>Sign In</li>
                 </Link>
                
                 
