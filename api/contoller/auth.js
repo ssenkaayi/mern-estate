@@ -1,5 +1,6 @@
 import User from "../modules/User.js";
 import bcryptjs from 'bcryptjs'
+import { errorHandler } from "../utils/error.js";
 
 export const signup = async(req,res,next)=>{
 
