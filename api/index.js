@@ -3,12 +3,14 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.js'
 import authRouter from './routes/auth.js'
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
 
 //express middleware
 app.use(express.json());
+app.use(cors())
 
 //connecting to the db
 const connect = async ()=>{
@@ -32,6 +34,7 @@ connect()
 app.use('/user',userRouter)
 app.use('/auth',authRouter)
 
+//creating an error Handler
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || 'internal Server Error';
