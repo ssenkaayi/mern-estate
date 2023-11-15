@@ -1,10 +1,11 @@
 import  express  from "express";
-import { signup } from "../contoller/auth.js";
+import { signup,signin } from "../contoller/auth.js";
 
 
 const route = express.Router();
 
 
-route.post('/',signup)
+route.post('/signup',signup)
+route.post('/signin',signin)
 
 export default route;

@@ -8,6 +8,7 @@ export default function SignUp() {
   const[formData,setFormData]=useState({});
   const[loading,setLoading]=useState(false);
   const[error,setError]= useState(null);
+  
   const navigate = useNavigate();
 
   const handleChange = (e)=>{
@@ -23,20 +24,25 @@ export default function SignUp() {
     setLoading(true);
     e.preventDefault();
     try{
+      //making a request to the server
       const res = await fetch('http://localhost:5000/auth',{
         method:'POSt',
         headers:{'content-type':'application/json',},
         body:JSON.stringify(formData)
       }
       );
+      //getting response from the server
       const data =  await res.json();
       // console.log(data)
 
+      //if response is false, show the error message to the client
       if(data.success===false){
         setLoading(false);
         setError(data.message);
         return
       }
+
+      //if response is True, register and navigate to the sign in page
       setLoading(false);
       setError(null)
       navigate('/signin')
@@ -44,12 +50,8 @@ export default function SignUp() {
     }catch(error){
       setLoading(false);
       setError(error.message);
-     
 
-    }
-  
-  
-    
+    } 
   }
 
   return (

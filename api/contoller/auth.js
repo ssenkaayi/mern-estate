@@ -1,6 +1,7 @@
 import User from "../modules/User.js";
 import bcryptjs from 'bcryptjs'
 import { errorHandler } from "../utils/error.js";
+import  Jwt  from "jsonwebtoken";
 
 export const signup = async(req,res,next)=>{
 
@@ -22,4 +23,24 @@ export const signup = async(req,res,next)=>{
     next(error);
   }
 
+}
+
+export const signin = async(req,res,next)=>{
+
+  
+  const {username,password} = req.body;
+
+  try{
+
+    const isValidUser = await User.findOne({username});
+    if(!isValidUser) return next(errorHandler(404,'no user with username is found'));
+    const isValidPassword = bcryptjs.compareSync(password,isValidUser.password);
+    if(!isValidPassword) return next(errorHandler(404,'incorrrect username and password'));
+    const token = Jwt.sign({id:isValidUser.id},process.env.JWT_SECRET);
+    res.cookie('access_token',token,{httpOnly:true}).status(200).json(isValidUser);
+
+
+  }catch(error){
+    next(error)
+  }
 }
