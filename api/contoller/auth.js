@@ -36,8 +36,10 @@ export const signin = async(req,res,next)=>{
     if(!isValidUser) return next(errorHandler(404,'no user with username is found'));
     const isValidPassword = bcryptjs.compareSync(password,isValidUser.password);
     if(!isValidPassword) return next(errorHandler(404,'incorrrect username and password'));
+
     const token = Jwt.sign({id:isValidUser.id},process.env.JWT_SECRET);
-    res.cookie('access_token',token,{httpOnly:true}).status(200).json(isValidUser);
+    const{password:pass,...rest} = isValidUser._doc
+    res.cookie('access_token',token,{httpOnly:true}).status(200).json(rest);
 
 
   }catch(error){

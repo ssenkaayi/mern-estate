@@ -44,7 +44,7 @@ export default function SignIn() {
       //if response is True, register and navigate to the sign in page
       setLoading(false);
       setError(null)
-      navigate('/home')
+      navigate('/')
 
     }catch(error){
       setLoading(false);
