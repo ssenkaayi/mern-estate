@@ -10,7 +10,7 @@ const app = express();
 
 //express middleware
 app.use(express.json());
-app.use(cors())
+// app.use(cors())
 
 //connecting to the db
 const connect = async ()=>{

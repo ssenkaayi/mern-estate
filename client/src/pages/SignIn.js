@@ -24,7 +24,7 @@ export default function SignIn() {
     e.preventDefault();
     try{
       //making a request to the server
-      const res = await fetch('http://localhost:5000/auth/signin',{
+      const res = await fetch('/auth/signin',{
         method:'POSt',
         headers:{'content-type':'application/json',},
         body:JSON.stringify(formData)
@@ -43,6 +43,7 @@ export default function SignIn() {
 
       //if response is True, register and navigate to the sign in page
       setLoading(false);
+      console.log(data)
       setError(null)
       navigate('/')
 

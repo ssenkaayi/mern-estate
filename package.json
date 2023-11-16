@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "nodemon api/index.js"
+   
   },
+ 
   "keywords": [],
   "author": "",
   "license": "ISC",
