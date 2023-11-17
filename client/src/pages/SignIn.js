@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice';
 
 
 export default function SignIn() {
   const[formData,setFormData]=useState({});
-  const[loading,setLoading]=useState(false);
-  const[error,setError]= useState(null);
+ const {loading,error} = useSelector((state)=>state.user);
+  const dispatch = useDispatch();
   
   const navigate = useNavigate();
 
@@ -20,9 +22,10 @@ export default function SignIn() {
 
   //linking our api to send req to the server
   const handleSubmit = async(e)=>{
-    setLoading(true);
+   
     e.preventDefault();
     try{
+      dispatch(signInStart())
       //making a request to the server
       const res = await fetch('/auth/signin',{
         method:'POSt',
@@ -36,21 +39,16 @@ export default function SignIn() {
 
       //if response is false, show the error message to the client
       if(data.success===false){
-        setLoading(false);
-        setError(data.message);
-        return
+        dispatch(signInFailure(data.message));
+        return;
       }
 
       //if response is True, register and navigate to the sign in page
-      setLoading(false);
-      console.log(data)
-      setError(null)
+      dispatch(signInSuccess(data));
       navigate('/')
 
     }catch(error){
-      setLoading(false);
-      setError(error.message);
-
+      dispatch(signInFailure(error.message))
     } 
   }
 
@@ -71,7 +69,7 @@ export default function SignIn() {
       </form>
 
       <div className='flex gap-2 mt-5'>
-        <p>Have an account ?</p>
+        <p>Dont have an account ?</p>
         <Link to={'/signup'}>
           <span className='text-blue-700'>Sign Up</span>
         </Link>

@@ -3,14 +3,12 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.js'
 import authRouter from './routes/auth.js'
-import cors from 'cors';
 dotenv.config();
 
 const app = express();
 
 //express middleware
 app.use(express.json());
-// app.use(cors())
 
 //connecting to the db
 const connect = async ()=>{
