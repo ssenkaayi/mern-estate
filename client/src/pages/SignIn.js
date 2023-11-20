@@ -45,6 +45,7 @@ export default function SignIn() {
 
       //if response is True, register and navigate to the sign in page
       dispatch(signInSuccess(data));
+      // console.log(data)
       navigate('/')
 
     }catch(error){
