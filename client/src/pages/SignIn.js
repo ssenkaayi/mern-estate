@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice';
+import Oauth from '../components/Oauth';
+
 
 
 export default function SignIn() {
@@ -22,7 +24,7 @@ export default function SignIn() {
 
   //linking our api to send req to the server
   const handleSubmit = async(e)=>{
-   
+    
     e.preventDefault();
     try{
       dispatch(signInStart())
@@ -45,7 +47,6 @@ export default function SignIn() {
 
       //if response is True, register and navigate to the sign in page
       dispatch(signInSuccess(data));
-      // console.log(data)
       navigate('/')
 
     }catch(error){
@@ -67,6 +68,8 @@ export default function SignIn() {
 
          <button disabled={loading} className='bg-slate-700 text-white p-3
          rounded-lg uppercase hover:opacity-95'>{loading? 'loading...':'Sign In'}</button>
+
+         <Oauth/>
       </form>
 
       <div className='flex gap-2 mt-5'>
