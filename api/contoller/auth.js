@@ -68,14 +68,16 @@ export const google = async(req,res,next)=>{
       // console.log(hashPassword)
       
       const newUser = new User(
-        {username:req.body.name.split(" ").join("").toLowerCase()+Math.random().toString(36).slice(-4),
-      email:req.body.email,password:hashPassword,
-      avatar:req.body.photo });
-      await newUser.save()
-      const token = Jwt({id:req.body._id},process.env.JWT_SECRET);
-      const {password:pass,...rest} = newUser._doc;
+      { username:req.body.name.split(" ").join("").toLowerCase()+Math.random().toString(36).slice(-4),
+        email:req.body.email,password:hashPassword,
+        avatar:req.body.photo 
+      });
+      const saveUser = await newUser.save()
+
+      const token = Jwt.sign({id:saveUser._id},process.env.JWT_SECRET);
+      const {password:pass,...rest} = saveUser._doc;
       res
-      .cookie('access_take',token,{httpOnly:true})
+      .cookie('access_token',token,{httpOnly:true})
       .status(200)
       .json(rest)
     }

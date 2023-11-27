@@ -3,7 +3,10 @@ import {useSelector} from 'react-redux/es/hooks/useSelector'
 import { useRef,useState,useEffect } from 'react';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 import { app } from '../firebase';
-import { updateUserStart,updateUserFailure,updateUserSuccess } from '../redux/user/userSlice';
+import { updateUserStart,updateUserFailure,updateUserSuccess, 
+  deleteUserFailure, 
+  deleteUserStart,
+  deleteUserSuccess} from '../redux/user/userSlice';
 import { useDispatch} from 'react-redux';
 
 
@@ -30,7 +33,7 @@ export default function Profile() {
       handleFileUpload(file);
     }
 
-  },[file]);
+  },);
 
   const handleFileUpload = (file)=>{
 
@@ -76,7 +79,7 @@ export default function Profile() {
         body:JSON.stringify(formData)
       });
 
-      console.log(`${currentUser._id}`)
+      // console.log(`${currentUser._id}`)
      
 
       const data = await res.json();
@@ -94,13 +97,35 @@ export default function Profile() {
     }
   }
 
+  const handleDeleteUser = async()=>{
+    try{
+      dispatch(deleteUserStart())
+      const res = await fetch(`/user/delete/${currentUser._id}`,
+      {
+        method:'delete',
+      });
+
+      const data = res.json();
+      
+      if(data.success===false){
+        dispatch(deleteUserFailure(data.message))
+        return;
+      }
+
+      dispatch(deleteUserSuccess(data))
+
+    }catch(error){
+      dispatch(deleteUserFailure(error.message))
+    }
+  }
+
   return (
 
     <div className='p-3 max-w-lg mx-auto'>
 
         <h1 className='
         text-3xl font-semibold
-        text-center my-7'
+        text-center my-5'
         > Profile </h1>
 
 
@@ -121,7 +146,7 @@ export default function Profile() {
             {uploadError?(
               <span className='text-red-7oo'>Error uploading image</span>
             ):
-            filePerc > 0 && filePerc < 100 ?(<span className='text-slate-700'>{'uploading ${filePerc}%'}</span>):
+            filePerc > 0 && filePerc < 100 ?(<span className='text-slate-700'>{`uploading ${filePerc}%`}</span>):
             filePerc===100?(<span className='text-green-700'>successfully uploaded!</span>):('')}
 
           </p>
@@ -143,8 +168,8 @@ export default function Profile() {
         
         </form>
 
-        <div className='flex justify-between mt-5'>
-          <span className='text-red-700 cursor-pointer'>Delete Account</span>
+        <div className='flex justify-between mt-2'>
+          <span onClick={handleDeleteUser} className='text-red-700 cursor-pointer'>Delete Account</span>
 
           <span className='text-red-700 cursor-pointer'>Sign out </span>
         </div>
