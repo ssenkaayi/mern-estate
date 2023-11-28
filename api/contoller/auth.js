@@ -69,7 +69,8 @@ export const google = async(req,res,next)=>{
       
       const newUser = new User(
       { username:req.body.name.split(" ").join("").toLowerCase()+Math.random().toString(36).slice(-4),
-        email:req.body.email,password:hashPassword,
+        email:req.body.email,
+        password:hashPassword,
         avatar:req.body.photo 
       });
       const saveUser = await newUser.save()
@@ -85,5 +86,17 @@ export const google = async(req,res,next)=>{
 
   }catch(error){
     next(error)
+  }
+}
+
+export const signOut = async(req,res,next)=>{
+
+  try{
+
+  
+    res.clearCookie('access_token').status(200).json('user signed out successfully')
+
+  }catch(error){
+      next(error)
   }
 }
