@@ -22,6 +22,10 @@ const listenSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    bedroom:{
+        type:Number,
+        required:true
+    },
     bathroom:{
         type:Number,
         required:true

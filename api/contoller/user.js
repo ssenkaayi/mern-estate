@@ -17,17 +17,18 @@ export const updateUser = async(req,res,next)=>{
 
         const {username,email,password,avatar}=req.body;
 
-        const hashPassword = bcryptjs.hashSync(password,10)
+        // const hashPassword = bcryptjs.hashSync(password,10)
     
-        // if(password){
-        //    hashPassword = bcryptjs.hashSync(password,10)
-        // }
+        if(password){
+           const password = bcryptjs.hashSync(password,10)
+           
+        }
 
-        console.log(req.body)
+        // console.log(req.body)
 
         const updateUser = await User.findByIdAndUpdate(req.params.id,{$set:{
             username,
-            password:hashPassword,
+            password,
             email,
             avatar}},{new:true})
 

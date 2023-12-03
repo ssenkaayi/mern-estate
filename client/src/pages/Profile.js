@@ -11,6 +11,7 @@ import { updateUserStart,updateUserFailure,updateUserSuccess,
   signOutSuccess,
   signOutFailure} from '../redux/user/userSlice';
 import { useDispatch} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 
 
@@ -66,7 +67,7 @@ export default function Profile() {
 
   const handleFormData = (e)=>{
     setFormData({...formData,[e.target.id]:e.target.value});
-    console.log(formData)
+    // console.log(formData)
 
   }
 
@@ -188,7 +189,10 @@ export default function Profile() {
 
           <button disabled={loading} className='bg-slate-700 text-white rounded-lg
           p-3 uppercase hover:opacity-95'> {loading?'loading...':'update'}</button>
-        
+
+          <Link className='bg-green-700 p-3 rounded-lg uppercase text-center hover:opacity-95
+           text-white' 
+          to={'/create-listing'}> create listing</Link>
         </form>
 
         <div className='flex justify-between mt-2'>
