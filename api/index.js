@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.js'
 import authRouter from './routes/auth.js'
+import listingRouter from './routes/listing.js'
 import cookieParser from 'cookie-parser';
 dotenv.config();
 
@@ -33,6 +34,7 @@ connect()
 //router middleware
 app.use('/user',userRouter)
 app.use('/auth',authRouter)
+app.use('/listing',listingRouter)
 
 
 //creating an error Handler

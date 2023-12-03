@@ -7,10 +7,11 @@ export const signup = async(req,res,next)=>{
 
   // collect request from client
   const {username,email,password} = req.body;
-  // hashing the passowrd 
+  // console.log(req.body);
  
-
   try{
+
+     // hashing the passowrd 
     const hashedPassword = bcryptjs.hashSync(password,10);
     // creating a new account
     const createUser  = new User({username:username,email:email,password:hashedPassword})
@@ -29,6 +30,7 @@ export const signin = async(req,res,next)=>{
 
   
   const {username,password} = req.body;
+  console.log(req.body);
 
   try{
 
