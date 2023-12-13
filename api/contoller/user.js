@@ -1,3 +1,4 @@
+import Listing from "../modules/Listing.js"
 import User from "../modules/User.js"
 import { errorHandler } from "../utils/error.js"
 import bcryptjs from 'bcryptjs'
@@ -15,22 +16,19 @@ export const updateUser = async(req,res,next)=>{
 
     try{
 
-        const {username,email,password,avatar}=req.body;
-
-        // const hashPassword = bcryptjs.hashSync(password,10)
     
-        if(password){
-             password = bcryptjs.hashSync(password,10)
+        if(req.body.password){
+             req.body.password = bcryptjs.hashSync(req.body.password,10)
            
         }
 
         // console.log(req.body)
 
         const updateUser = await User.findByIdAndUpdate(req.params.id,{$set:{
-            username,
-            password:password,
-            email,
-            avatar}},{new:true})
+            username:req.body.username,
+            password:req.body.password,
+            email:req.body.email,
+            avatar:req.body.avatar}},{new:true})
 
         const {password:pass,...rest} = updateUser._doc;
         res.status(200).json(rest);
@@ -54,6 +52,31 @@ export const deleteUser = async(req,res,next)=>{
 
     }catch(error){
         next(error)
+    }
+}
+
+export const getUserListings = async(req,res,next)=>{
+
+    // console.log(req.user.id)
+    // console.log(req.params.id)
+    
+
+    if(req.params.id===req.user.id) {
+
+        try{
+
+            const userListings = await Listing.find({userRef:req.params.id})
+            res.status(200).json(userListings)
+
+        }catch(error){
+
+
+            next(error)
+        }
+
+        
+    }else{
+        return next(errorHandler(401,'you can only view your own listing'))
     }
 }
 

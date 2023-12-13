@@ -29,14 +29,14 @@ export const signup = async(req,res,next)=>{
 export const signin = async(req,res,next)=>{
 
   
-  const {username,password} = req.body;
-  console.log(req.body);
+  // const {username,password} = req.body;
+  // console.log(req.body);
 
   try{
 
-    const isValidUser = await User.findOne({username});
+    const isValidUser = await User.findOne({username:req.body.username});
     if(!isValidUser) return next(errorHandler(404,'no user with username is found'));
-    const isValidPassword = bcryptjs.compareSync(password,isValidUser.password);
+    const isValidPassword = bcryptjs.compareSync(req.body.password,isValidUser.password);
     if(!isValidPassword) return next(errorHandler(404,'incorrrect username and password'));
 
     const token = Jwt.sign({id:isValidUser.id},process.env.JWT_SECRET);

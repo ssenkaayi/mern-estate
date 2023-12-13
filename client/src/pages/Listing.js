@@ -1,4 +1,6 @@
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+
+
+import { getDownloadURL, getStorage,ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../firebase';
 import React from 'react'
 import { useState } from 'react'
@@ -12,7 +14,7 @@ export default function Listing() {
     const[imageFile, setImageFile] = useState([])
     const[error,setError] = useState(false)
     const[loading,setLoading] = useState(false)
-    const currentUser = useSelector((state)=>state.user)
+    const{currentUser} = useSelector((state)=>state.user)
     const navigate = useNavigate()
     const[formData, setFormData] = useState(
         {
@@ -35,6 +37,8 @@ export default function Listing() {
     )
     
     const handleInputs = (e)=>{
+
+        // console.log(e)
 
         if(e.target.id === 'sell'|| e.target.id === 'rent'){
             setFormData({...formData,type:e.target.id})
@@ -85,6 +89,7 @@ export default function Listing() {
     }
 
     const handleImageDelete = (index)=>{
+
         setFormData({
             ...formData,
             imageUrls:formData.imageUrls.filter((_,i) => i !== index) 
@@ -104,12 +109,12 @@ export default function Listing() {
                 headers:{
                     'Content-Type' : 'application/json',
                 },
-                body:JSON.stringify({...formData,userRef:currentUser.username})
+                body:JSON.stringify({...formData,userRef:currentUser._id})
             });
 
             const data = await res.json()
             setLoading(false);
-            // navigate('/listings')
+            
 
             if(data.success === false){
 
@@ -117,13 +122,15 @@ export default function Listing() {
              
             }
 
-            navigate('/listings')
+           
 
         }catch(error){
             setError(error.message);
             setLoading(false);
 
         }
+
+         navigate(`/listings/${currentUser._id}`)
     }
 
     const storeImage = async(imageFile)=>{
@@ -136,9 +143,9 @@ export default function Listing() {
             uploadTask.on(
                 'state_changed',
                 (snapshot) => {
-                    const progress = (snapshot.bytesTransferred/
+                   const progress = (snapshot.bytesTransferred/
                     snapshot.totalBytes)*100;
-                    console.log(progress)
+                    // console.log(progress)
                     
                 },
                 (error)=>{
@@ -160,6 +167,8 @@ export default function Listing() {
     }
 
 
+
+
   return (
 
     <main className='p-3 my-7'>
@@ -172,10 +181,12 @@ export default function Listing() {
             <div className='flex flex-col gap-4 flex-1'>
 
                 <input type='text' placeholder='Name' className='border p-3
-                rounded-lg ' onChange={handleInputs} value={formData.name} id='name' maxLength={'62'} minLength={'10'} required/>
+                rounded-lg ' onChange={handleInputs} value={formData.name} id='name' maxLength={'62'} minLength={'10'} 
+                required/>
 
                 <textarea type='textarea' placeholder='Description' className='border p-3
-                rounded-lg ' id='description' onChange={handleInputs} value={formData.description} maxLength={'62'} minLength={'10'} required/>
+                rounded-lg ' id='description' onChange={handleInputs} value={formData.description} 
+                maxLength={'62'} minLength={'10'} required/>
 
                 <input type='text' placeholder='Addess' className='border p-3
                 rounded-lg ' id='address' maxLength={'62'} onChange={handleInputs} value={formData.address} minLength={'10'} required/>
@@ -238,6 +249,7 @@ export default function Listing() {
                     </div>
 
                     <div className='flex items-center gap-2'>
+
                         <input type='number' id='discountPrice' onChange={handleInputs} checked={formData.discountPrice} className='p-3 border rounded-lg
                          border-gray-300' max='10'
                         min='1' required/>
@@ -283,23 +295,26 @@ export default function Listing() {
                            className='w-20 h-20 object-cover rounded-lg'
                            />
 
-                           <button onClick={()=>handleImageDelete(index)} type='button' className='p-3 text-red-700 hover:opacity-75 flex uppercase'>delete</button>
+                           <button onClick={()=>handleImageDelete(index)} type='button' 
+                           className='p-3 text-red-700 
+                           hover:opacity-75 flex uppercase'
+                           >delete</button>
                         </div>
                         
 
                     ))
                 }
 
-                <button disabled={loading?'create listing':''} className='p-3 bg-slate-700 text-white rounded-lg uppercase 
+                <button disabled={loading||uploading} className='p-3 bg-slate-700 text-white rounded-lg uppercase 
                 hover:opacity-95 disabled:opacity-80'>
                 {loading?'creating...':'create listing'}
                 </button>
 
                 <p className='text-red-700 text-sm'>{error && error}</p>
 
-            </div>
+                
 
-    
+            </div>
 
         </form>
     </main>

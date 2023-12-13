@@ -57,4 +57,5 @@ const listenSchema = new mongoose.Schema({
 
 },{timestamps:true});
 
-export default mongoose.model('Listing',listenSchema);
+const Listing =  mongoose.model('Listing',listenSchema);
+export default Listing;
