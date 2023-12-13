@@ -176,10 +176,30 @@ export default function Profile() {
 
 }
 
-const handleDeleteListing = (e)=>{
+const handleDeleteListing = async(e)=>{
  
   const button_id = e.target.id
   console.log(button_id)
+
+  try{
+
+    const res = await fetch(`/listing/delete/${button_id}`,{
+      method:"DELETE",
+    })
+
+    const data = await res.json();
+
+    console.log(data)
+
+    if(data.success===false){
+      console.log(data.message)
+    }
+
+    setShowListing((prev)=>prev.filter((listing)=>listing._id!==button_id))
+
+  }catch(error){
+    console.log(error)
+  }
 
 }
 
