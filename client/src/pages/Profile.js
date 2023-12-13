@@ -176,6 +176,13 @@ export default function Profile() {
 
 }
 
+const handleDeleteListing = (e)=>{
+ 
+  const button_id = e.target.id
+  console.log(button_id)
+
+}
+
   return (
 
     <div className='p-3 max-w-lg mx-auto'>
@@ -267,7 +274,7 @@ export default function Profile() {
 
               <div className='flex flex-col item-center'>
 
-                <button className='text-red-700 uppercase '>delete</button>
+                <button id = {listing._id} onClick={handleDeleteListing} className='text-red-700 uppercase '>delete</button>
 
                 <button className='text-green-700 uppercase'>edit</button>
 
