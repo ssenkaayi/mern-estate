@@ -300,7 +300,7 @@ const handleDeleteListing = async(e)=>{
 
                 <button id = {listing._id} onClick={handleDeleteListing} className='text-red-700 uppercase '>delete</button>
 
-                <Link to={'/update-listing'}>
+                <Link to={`/update-listing/${listing._id}`}>
 
                  <button className='text-green-700 uppercase'>edit</button>
 

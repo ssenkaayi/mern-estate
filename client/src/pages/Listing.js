@@ -145,7 +145,7 @@ export default function Listing() {
                 (snapshot) => {
                    const progress = (snapshot.bytesTransferred/
                     snapshot.totalBytes)*100;
-                    // console.log(progress)
+                    console.log(progress)
                     
                 },
                 (error)=>{
@@ -173,7 +173,7 @@ export default function Listing() {
 
     <main className='p-3 my-7'>
         <h1 className='text-center font-semibold text-3xl my-7'>
-         Create a Listing
+         Create Listing
         </h1> 
 
         <form onSubmit={handleSubmit} className='flex flex-col  sm:flex-row gap-4'>
