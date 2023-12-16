@@ -17,6 +17,7 @@ import {Link} from 'react-router-dom';
 
 export default function Profile() {
 
+  //module
   const{currentUser,loading,error} = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const[file,setFile] = useState(undefined);
@@ -27,6 +28,7 @@ export default function Profile() {
   const[updateSuccess,setUpdateSuccess] = useState(false);
   const[showListing,setShowListing] = useState([])
   const [showListingError,setShowListingError] = useState(false)
+  // const[errorShowListing,setErrorShowListing] = useState(false)
 
 
   // console.log(formData)
@@ -292,17 +294,25 @@ const handleDeleteListing = async(e)=>{
 
               </Link>
 
+             
+
               <div className='flex flex-col item-center'>
 
                 <button id = {listing._id} onClick={handleDeleteListing} className='text-red-700 uppercase '>delete</button>
 
-                <button className='text-green-700 uppercase'>edit</button>
+                <Link to={'/update-listing'}>
 
+                 <button className='text-green-700 uppercase'>edit</button>
+
+                </Link>
+             
               </div> 
 
          
 
             </div>
+
+            
 
             ))}
 
@@ -310,11 +320,7 @@ const handleDeleteListing = async(e)=>{
           </div> 
         }
 
-    
-
-
-
+         {/* <p className='text-red-700 text-center mt-2'>{showListing.length<1? `${currentUser.username} has no listings for`:''}</p> */}
     </div>
-  
   )
 }
