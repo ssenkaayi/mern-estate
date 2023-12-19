@@ -15,6 +15,7 @@ export default function Listing() {
     const[error,setError] = useState(false)
     const[loading,setLoading] = useState(false)
     const{currentUser} = useSelector((state)=>state.user)
+    const[listing_id,setListing_id] = useState('')
     const navigate = useNavigate()
     const[formData, setFormData] = useState(
         {
@@ -114,6 +115,8 @@ export default function Listing() {
 
             const data = await res.json()
             setLoading(false);
+            setListing_id(data._id)
+            console.log(data._id)
             
 
             if(data.success === false){
@@ -130,7 +133,7 @@ export default function Listing() {
 
         }
 
-         navigate(`/listings/${currentUser._id}`)
+         navigate(`/listings/${listing_id}`)
     }
 
     const storeImage = async(imageFile)=>{

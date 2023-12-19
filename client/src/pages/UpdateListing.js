@@ -173,7 +173,7 @@ export default function UpdateListing() {
 
         }
 
-         navigate(`/listings/${currentUser._id}`)
+         navigate(`/listings/${listing_id}`)
     }
 
     const storeImage = async(imageFile)=>{
